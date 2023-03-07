@@ -5,10 +5,12 @@ import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.database.MongoCollectionWrapper;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AccountManager {
 
-    private static final HashMap<UUID, UserAccount> accountCache = new HashMap<>();
+    // A ConcurrentHashMap will allow us to save accounts asynchronously
+    private static final ConcurrentHashMap<UUID, UserAccount> accountCache = new ConcurrentHashMap<>();
     private static final MongoCollectionWrapper accountCollection = MongoCollectionManager.getCollectionWrapper("accounts");
 
     public static void init() {
@@ -17,7 +19,7 @@ public class AccountManager {
         for (Document document : accountCollection.getAllDocuments()) {
             try {
                 accountCache.put(UUID.fromString(document.getString("_id")), new UserAccount(document));
-            } catch (Exception ex) { // catch all possible exceptions when deserializing accounts
+            } catch (Exception ex) { // catch all possible exceptions when deserializing
                 System.out.printf("Failed to deserialize account with id %s\n", document.get("_id"));
             }
         }
@@ -27,12 +29,16 @@ public class AccountManager {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                for (Map.Entry<UUID, UserAccount> entry : accountCache.entrySet()) {
-                    if (!entry.getValue().isDirty()) {
-                        continue;
+                // Do large database I/O operations on a separate thread
+                new Thread(() -> {
+                    for (Map.Entry<UUID, UserAccount> entry : accountCache.entrySet()) {
+                        if (!entry.getValue().isDirty()) {
+                            continue;
+                        }
+                        accountCollection.saveDocument(entry.getKey().toString(), entry.getValue().toDocument(entry.getValue()));
+                        entry.getValue().setDirty(false);
                     }
-                    accountCollection.saveDocument(entry.getKey().toString(), entry.getValue().toDocument(entry.getValue()));
-                }
+                }).start();
             }
         }, 1000 * 300); // Auto-save accounts every 5 minutes
     }
@@ -46,7 +52,7 @@ public class AccountManager {
      *
      * @return the account, if it exists
      */
-    public UserAccount getAccount(String id) {
+    public static UserAccount getAccount(String id) {
         return getAccount(UUID.fromString(id));
     }
 
@@ -57,7 +63,7 @@ public class AccountManager {
      *
      * @return the account, if it exists
      */
-    public UserAccount getAccount(UUID id) {
+    public static UserAccount getAccount(UUID id) {
         return accountCache.get(id);
     }
 
