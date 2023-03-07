@@ -1,6 +1,7 @@
 package org.healthadvicegroup;
 
 
+import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.database.MongoCollectionWrapper;
 import org.healthadvicegroup.endpoint.EndpointManager;
 import org.healthadvicegroup.endpoint.impl.TestEndpoint;
@@ -10,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         // Initialise database connection
-        MongoCollectionWrapper.init();
+        MongoCollectionManager.init();
 
         // Construct API routes
         Spark.get("/test", (response, result) ->
