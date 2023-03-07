@@ -9,6 +9,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import lombok.Getter;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.util.HashMap;
 
@@ -24,13 +25,12 @@ public class MongoCollectionWrapper {
     }
 
     /**
-     * Save to {@link #collection} the provided {@link Document} with the provided _id
+     * Save to {@link #collection} the provided {@link Document}
      *
-     * @param _id the id of the document
      * @param document the document to save
      */
-    public void saveDocument(String _id, Document document) {
-        this.collection.replaceOne(new Document("_id", _id), document, new ReplaceOptions().upsert(true));
+    public void saveDocument(Document document) {
+        this.collection.replaceOne(Filters.eq("_id", document.get("_id")), document, new ReplaceOptions().upsert(true));
     }
 
     /**

@@ -13,7 +13,7 @@ public class AccountManager {
     private static final ConcurrentHashMap<UUID, UserAccount> accountCache = new ConcurrentHashMap<>();
 
     // Fast cache used to quickly determine whether a username exists or not
-    private static HashSet<String> usernameCache = new HashSet<>();
+    private static final HashSet<String>usernameCache = new HashSet<>();
     private static final MongoCollectionWrapper accountCollection = MongoCollectionManager.getCollectionWrapper("accounts");
 
     public static void init() {
@@ -21,9 +21,7 @@ public class AccountManager {
         long start = System.currentTimeMillis();
         for (Document document : accountCollection.getAllDocuments()) {
             try {
-                UserAccount account = new UserAccount(document);
-                accountCache.put(UUID.fromString(document.getString("_id")), account);
-                usernameCache.add(account.getUsername().toLowerCase(Locale.ROOT));
+                registerAccount(new UserAccount(document));
             } catch (Exception ex) { // catch all possible exceptions when deserializing
                 System.out.printf("Failed to deserialize account with id %s\n", document.get("_id"));
             }
@@ -40,12 +38,41 @@ public class AccountManager {
                         if (!entry.getValue().isDirty()) {
                             continue;
                         }
-                        accountCollection.saveDocument(entry.getKey().toString(), entry.getValue().toDocument(entry.getValue()));
-                        entry.getValue().setDirty(false);
+                        if (!saveAccount(entry.getValue())) {
+                            System.out.printf("Failed to save account with id %s\n", entry.getValue().getId().toString());
+                        }
                     }
                 }).start();
             }
         }, 1000 * 300); // Auto-save accounts every 5 minutes
+    }
+
+    /**
+     * Register the creation of an account object, whether it's a new account or a deserialized one
+     *
+     * @param account the account to register
+     */
+    public static void registerAccount(UserAccount account) {
+        accountCache.put(account.getId(), account);
+        usernameCache.add(account.getUsername().toLowerCase(Locale.ROOT));
+    }
+
+    /**
+     * Save the provided {@link UserAccount} to {@link #accountCollection}
+     *
+     * @param account the account to save
+     *
+     * @return whether the account was successfully saved or not
+     */
+    public static boolean saveAccount(UserAccount account) {
+        try {
+            accountCollection.saveDocument(account.toDocument(account));
+            account.setDirty(false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**

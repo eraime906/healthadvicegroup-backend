@@ -5,7 +5,7 @@ import org.healthadvicegroup.endpoint.Endpoint;
 import spark.Request;
 import spark.Response;
 
-public class UsernameHeadEndpoint extends Endpoint {
+public class UsernameValidityEndpoint extends Endpoint {
 
     @Override
     public Response handle(Request request, Response response) {

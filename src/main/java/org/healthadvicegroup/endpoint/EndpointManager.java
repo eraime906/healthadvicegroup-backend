@@ -1,6 +1,7 @@
 package org.healthadvicegroup.endpoint;
 
-import org.healthadvicegroup.endpoint.impl.UsernameHeadEndpoint;
+import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
+import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
 import spark.Request;
 import spark.Response;
 import spark.utils.Assert;
@@ -13,7 +14,8 @@ public class EndpointManager {
 
     // Register endpoints
     static {
-        registerEndpoint(new UsernameHeadEndpoint());
+        registerEndpoint(new UsernameValidityEndpoint());
+        registerEndpoint(new AccountCreationEndpoint());
     }
 
     /**
@@ -31,6 +33,8 @@ public class EndpointManager {
      * @param clazz the endpoint to fetch and execute
      * @param request the web request to handle
      * @param response the resulting web response object
+     *
+     * @return the {@link Response} from the endpoint to be sent back
      */
     public static Response executeEndpoint(Class<? extends Endpoint> clazz, Request request, Response response) {
         Assert.isTrue(endpoints.containsKey(clazz), String.format("No endpoint for class %s was found", clazz.getSimpleName()));

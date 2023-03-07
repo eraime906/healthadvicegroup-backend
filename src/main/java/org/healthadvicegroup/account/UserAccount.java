@@ -37,6 +37,8 @@ public class UserAccount implements Serializable<UserAccount> {
         this.email = email;
         this.accountType = EnumAccountType.USER;
         this.fitnessTracker = new FitnessTracker(this);
+        AccountManager.registerAccount(this);
+        AccountManager.saveAccount(this);
     }
 
     @Override
