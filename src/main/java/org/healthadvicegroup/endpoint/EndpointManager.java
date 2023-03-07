@@ -1,9 +1,8 @@
 package org.healthadvicegroup.endpoint;
 
-import org.healthadvicegroup.endpoint.impl.TestEndpoint;
+import org.healthadvicegroup.endpoint.impl.UsernameHeadEndpoint;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.utils.Assert;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ public class EndpointManager {
 
     // Register endpoints
     static {
-        registerEndpoint(new TestEndpoint());
+        registerEndpoint(new UsernameHeadEndpoint());
     }
 
     /**
@@ -33,7 +32,7 @@ public class EndpointManager {
      * @param request the web request to handle
      * @param response the resulting web response object
      */
-    public static String executeEndpoint(Class<? extends Endpoint> clazz, Request request, Response response) {
+    public static Response executeEndpoint(Class<? extends Endpoint> clazz, Request request, Response response) {
         Assert.isTrue(endpoints.containsKey(clazz), String.format("No endpoint for class %s was found", clazz.getSimpleName()));
         Endpoint endpoint = endpoints.get(clazz);
         return endpoint.handle(request, response);

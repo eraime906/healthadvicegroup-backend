@@ -17,7 +17,7 @@ public class MongoCollectionManager {
      * Called on startup to initialise the database connection
      */
     public static void init() {
-        mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://yandiya:HealthAdviceGroup01.@healthadvicegroup.yvqvbdz.mongodb.net/?retryWrites=true&w=majority"));
+        mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://yandiya:vybe2205jiE176Et@healthadvicegroup.yvqvbdz.mongodb.net/?retryWrites=true&w=majority"));
         database = mongoClient.getDatabase("healthadvicegroup");
         System.out.println("Connected to the database");
     }

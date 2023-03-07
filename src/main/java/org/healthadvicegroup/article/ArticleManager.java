@@ -20,7 +20,7 @@ public class ArticleManager {
                 System.out.printf("Failed to deserialize article with id %s\n", document.get("_id"));
             }
         }
-        System.out.printf("Deserialized %s articles in %sms", articleCache.size(), System.currentTimeMillis() - start);
+        System.out.printf("Deserialized %s articles in %sms\n", articleCache.size(), System.currentTimeMillis() - start);
     }
 
     /**

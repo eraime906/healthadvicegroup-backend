@@ -5,10 +5,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.healthadvicegroup.account.AccountManager;
+import org.healthadvicegroup.article.ArticleManager;
 import org.healthadvicegroup.database.MongoCollectionManager;
-import org.healthadvicegroup.database.MongoCollectionWrapper;
 import org.healthadvicegroup.endpoint.EndpointManager;
-import org.healthadvicegroup.endpoint.impl.TestEndpoint;
+import org.healthadvicegroup.endpoint.impl.UsernameHeadEndpoint;
 import spark.Spark;
 
 public class Main {
@@ -23,12 +23,15 @@ public class Main {
 
         // Initialise database connection
         MongoCollectionManager.init();
-        // Initialise account manager
+        // Initialise managers
         AccountManager.init();
+        ArticleManager.init();
 
         // Construct API routes
-        Spark.get("/test", (response, result) ->
-                EndpointManager.executeEndpoint(TestEndpoint.class, response, result));
+        Spark.head("/account/:username", (response, result) ->
+                EndpointManager.executeEndpoint(UsernameHeadEndpoint.class, response, result));
+
+        System.out.println("Started!");
     }
 
 }

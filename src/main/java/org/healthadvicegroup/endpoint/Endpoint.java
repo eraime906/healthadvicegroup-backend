@@ -12,6 +12,6 @@ public abstract class Endpoint {
         EndpointManager.registerEndpoint(this);
     }
 
-    public abstract String handle(Request request, Response response);
+    public abstract Response handle(Request request, Response response);
 
 }

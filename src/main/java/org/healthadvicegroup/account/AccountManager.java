@@ -23,7 +23,7 @@ public class AccountManager {
                 System.out.printf("Failed to deserialize account with id %s\n", document.get("_id"));
             }
         }
-        System.out.printf("Deserialized %s accounts in %sms", accountCache.size(), System.currentTimeMillis() - start);
+        System.out.printf("Deserialized %s accounts in %sms\n", accountCache.size(), System.currentTimeMillis() - start);
 
         // Setup loop to save accounts
         new Timer().schedule(new TimerTask() {
