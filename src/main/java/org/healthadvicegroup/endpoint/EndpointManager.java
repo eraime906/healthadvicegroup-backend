@@ -1,11 +1,13 @@
 package org.healthadvicegroup.endpoint;
 
 import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
+import org.healthadvicegroup.endpoint.impl.GetArticlesEndpoint;
 import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
 import spark.Request;
 import spark.Response;
 import spark.utils.Assert;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 
 public class EndpointManager {
@@ -16,6 +18,7 @@ public class EndpointManager {
     static {
         registerEndpoint(new UsernameValidityEndpoint());
         registerEndpoint(new AccountCreationEndpoint());
+        registerEndpoint(new GetArticlesEndpoint());
     }
 
     /**
@@ -39,6 +42,7 @@ public class EndpointManager {
     public static Response executeEndpoint(Class<? extends Endpoint> clazz, Request request, Response response) {
         Assert.isTrue(endpoints.containsKey(clazz), String.format("No endpoint for class %s was found", clazz.getSimpleName()));
         Endpoint endpoint = endpoints.get(clazz);
+        System.out.printf("Executing %s\n", endpoint.getClass().getSimpleName());
         return endpoint.handle(request, response);
     }
 }

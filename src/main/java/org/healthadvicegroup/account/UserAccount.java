@@ -1,7 +1,6 @@
 package org.healthadvicegroup.account;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.Document;
@@ -23,7 +22,7 @@ public class UserAccount implements Serializable<UserAccount> {
 
     // Constructor for deserializing user accounts
     public UserAccount(Document document) {
-        this.id = UUID.fromString(document.getString("_id"));
+        this.id = document.get("_id", UUID.class);
         this.username = document.getString("username");
         this.email = document.getString("email");
         this.accountType = EnumAccountType.valueOf(document.getString("account-type"));
@@ -42,11 +41,11 @@ public class UserAccount implements Serializable<UserAccount> {
     }
 
     @Override
-    public Document toDocument(UserAccount object) {
+    public Document toDocument(UserAccount object, Gson gson) {
         return new Document("_id", object.getId())
                 .append("username", object.username)
                 .append("email", object.email)
                 .append("account-type", object.accountType.name())
-                .append("fitness-tracker", object.fitnessTracker.toDocument(object.fitnessTracker));
+                .append("fitness-tracker", object.fitnessTracker.toDocument(object.fitnessTracker, gson));
     }
 }

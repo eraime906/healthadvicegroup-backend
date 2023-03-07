@@ -1,6 +1,7 @@
 package org.healthadvicegroup.account;
 
 import org.bson.Document;
+import org.healthadvicegroup.Main;
 import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.database.MongoCollectionWrapper;
 
@@ -24,6 +25,7 @@ public class AccountManager {
                 registerAccount(new UserAccount(document));
             } catch (Exception ex) { // catch all possible exceptions when deserializing
                 System.out.printf("Failed to deserialize account with id %s\n", document.get("_id"));
+                ex.printStackTrace();
             }
         }
         System.out.printf("Deserialized %s accounts in %sms\n", accountCache.size(), System.currentTimeMillis() - start);
@@ -66,7 +68,7 @@ public class AccountManager {
      */
     public static boolean saveAccount(UserAccount account) {
         try {
-            accountCollection.saveDocument(account.toDocument(account));
+            accountCollection.saveDocument(account.toDocument(account, Main.getGSON()));
             account.setDirty(false);
         } catch (Exception ex) {
             ex.printStackTrace();

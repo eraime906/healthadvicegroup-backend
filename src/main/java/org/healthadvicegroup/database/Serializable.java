@@ -46,10 +46,11 @@ public interface Serializable<T> extends JsonSerializer<T>, JsonDeserializer<T> 
      * Overridable function to implement document serialization
      *
      * @param object the {@link T} object to serialize
+     * @param gson the gson object to use while serializing this object to a document
      *
      * @return the serialized object
      */
-    default public Document toDocument(T object){
+    default public Document toDocument(T object, Gson gson) {
         throw new UnsupportedOperationException("This function hasn't been implemented in this class");
     }
 
@@ -63,7 +64,7 @@ public interface Serializable<T> extends JsonSerializer<T>, JsonDeserializer<T> 
     default List<Document> toDocumentList(List<T> objects) {
         List<Document> documents = new ArrayList<>();
         for (T object : objects) {
-            documents.add(this.toDocument(object));
+            documents.add(this.toDocument(object, Main.getGSON()));
         }
         return documents;
     }

@@ -9,6 +9,7 @@ import org.healthadvicegroup.article.ArticleManager;
 import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.endpoint.EndpointManager;
 import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
+import org.healthadvicegroup.endpoint.impl.GetArticlesEndpoint;
 import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
 import spark.Spark;
 
@@ -28,8 +29,8 @@ public class Main {
         AccountManager.init();
         ArticleManager.init();
 
-        // Construct API routes
 
+        // Construct API routes
         /**
          * Used to check whether an endpoint exists or not
          *
@@ -46,7 +47,15 @@ public class Main {
         Spark.post("account/create", (response, result) ->
                 EndpointManager.executeEndpoint(AccountCreationEndpoint.class, response, result));
 
-        System.out.println("Started!");
+        /**
+         * Used to fetch all articles from {@link ArticleManager}
+         *
+         * @see GetArticlesEndpoint
+         */
+        Spark.get("/articles", (response, result) ->
+                EndpointManager.executeEndpoint(GetArticlesEndpoint.class, response, result));
+
+        System.out.println("Backend Service Started");
     }
 
 }

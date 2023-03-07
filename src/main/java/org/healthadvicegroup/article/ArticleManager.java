@@ -15,9 +15,11 @@ public class ArticleManager {
         long start = System.currentTimeMillis();
         for (Document document : articleCollection.getAllDocuments()) {
             try {
-                articleCache.put(UUID.fromString(document.getString("_id")), new Article(document));
+                Article article = new Article(document);
+                articleCache.put(article.getId(), article);
             } catch (Exception ex) { // catch all possible exceptions when deserializing
                 System.out.printf("Failed to deserialize article with id %s\n", document.get("_id"));
+                ex.printStackTrace();
             }
         }
         System.out.printf("Deserialized %s articles in %sms\n", articleCache.size(), System.currentTimeMillis() - start);

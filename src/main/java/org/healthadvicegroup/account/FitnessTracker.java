@@ -1,7 +1,6 @@
 package org.healthadvicegroup.account;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import lombok.Getter;
 import org.bson.Document;
 import org.healthadvicegroup.database.Serializable;
@@ -41,7 +40,7 @@ public class FitnessTracker implements Serializable<FitnessTracker> {
     }
 
     @Override
-    public Document toDocument(FitnessTracker object) {
+    public Document toDocument(FitnessTracker object, Gson gson) {
         Document document = new Document();
         FitnessTrackerEntry serializationDummy = new FitnessTrackerEntry();
 
@@ -76,7 +75,7 @@ class FitnessTrackerEntry implements Serializable<FitnessTrackerEntry> {
     }
 
     @Override
-    public Document toDocument(FitnessTrackerEntry object) {
+    public Document toDocument(FitnessTrackerEntry object, Gson gson) {
         return new Document()
                 .append("time", object.time)
                 .append("value", object.value);

@@ -1,10 +1,14 @@
 package org.healthadvicegroup.article;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import org.bson.Document;
+import org.healthadvicegroup.Main;
 import org.healthadvicegroup.database.Serializable;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -19,34 +23,30 @@ public class Article implements Serializable<Article> {
     private final HashSet<EnumArticleTag> tags = new HashSet<>();
 
     public Article(Document document) {
-        this.id = UUID.fromString(document.getString("_id"));
+        this.id = document.get("_id", UUID.class);
         this.title = document.getString("title");
         this.blurb = document.getString("blurb");
         this.text = document.getString("text");
-
-        // Deserialize article tags
-        List<String> tagList = document.getList("tags", String.class);
-        if (tagList != null) {
-            for (String tagName : tagList) {
-                this.tags.add(EnumArticleTag.valueOf(tagName));
-            }
-        }
+        this.tags.addAll(Main.getGSON().fromJson(document.getString("tags"), new TypeToken<HashSet<EnumArticleTag>>(){}.getType()));
 
     }
 
     @Override
-    public Document toDocument(Article object) {
-        Document document = new Document("_id", object.id.toString())
+    public Document toDocument(Article object, Gson gson) {
+        return new Document("_id", object.id.toString())
                 .append("title", object.title)
                 .append("blurb", object.blurb)
-                .append("text", object.text);
+                .append("text", object.text)
+                .append("tags", gson.toJson(this.tags));
+    }
 
-        // Serialize article tags
-        List<String> tags = new ArrayList<>();
-        for (EnumArticleTag tag : object.getTags()) {
-            tags.add(tag.name());
-        }
-        document.append("tags", tags);
-        return document;
+    @Override
+    public JsonElement toJson(Article object, Gson gson) {
+        JsonObject json = new JsonObject();
+        json.addProperty("title", object.title);
+        json.addProperty("blurb", object.blurb);
+        json.addProperty("text", object.text);
+        json.addProperty("tags", gson.toJson(object.tags));
+        return json;
     }
 }
