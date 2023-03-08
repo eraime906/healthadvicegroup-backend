@@ -35,7 +35,6 @@ public class OpenWeatherMapHook {
             @Override
             public void onResponse(Response response) throws IOException {
                 location.updateWeatherData(Main.getGSON().fromJson(response.body().string(), JsonObject.class));
-                System.out.printf("Updated weather data for %s\n", location.getLocationName());
             }
         });
     }

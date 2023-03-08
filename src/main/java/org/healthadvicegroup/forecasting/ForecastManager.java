@@ -1,6 +1,7 @@
 package org.healthadvicegroup.forecasting;
 
 import org.healthadvicegroup.forecasting.apis.OpenWeatherMapHook;
+import org.healthadvicegroup.forecasting.apis.TomorrowIOAirQualityHook;
 
 import java.util.HashSet;
 import java.util.Timer;
@@ -13,12 +14,13 @@ public class ForecastManager {
     }};
 
     public static void init() {
-        // Update weather data every 30 min
+        // Update data every 30 min
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 for (WeatherLocation weatherLocation : weatherLocations) {
                     OpenWeatherMapHook.updateWeatherData(weatherLocation);
+                    TomorrowIOAirQualityHook.updateAirQualityData(weatherLocation);
                 }
             }
         }, 0, 1000 * 60 * 30);
