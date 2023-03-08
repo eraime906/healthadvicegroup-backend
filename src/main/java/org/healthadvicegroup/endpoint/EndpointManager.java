@@ -42,6 +42,7 @@ public class EndpointManager {
     public static Response executeEndpoint(Class<? extends Endpoint> clazz, Request request, Response response) {
         Assert.isTrue(endpoints.containsKey(clazz), String.format("No endpoint for class %s was found", clazz.getSimpleName()));
         Endpoint endpoint = endpoints.get(clazz);
+        //response.type("application/json");
         System.out.printf("Executing %s\n", endpoint.getClass().getSimpleName());
         return endpoint.handle(request, response);
     }

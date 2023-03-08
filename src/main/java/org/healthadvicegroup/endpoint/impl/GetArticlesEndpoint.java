@@ -12,13 +12,11 @@ public class GetArticlesEndpoint extends Endpoint {
 
     @Override
     public Response handle(Request request, Response response) {
-        response.type("application/json");
         JsonObject json = new JsonObject();
         for (Article article : ArticleManager.getAllArticles()) {
             json.addProperty(article.getId().toString(), String.valueOf(article.toJson(article, Main.getGSON())));
         }
-        response.body(String.valueOf(json));
-        response.status(204);
+        response.body(json.toString());
         return response;
     }
 }

@@ -8,9 +8,11 @@ import org.healthadvicegroup.account.AccountManager;
 import org.healthadvicegroup.article.ArticleManager;
 import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.endpoint.EndpointManager;
+import org.healthadvicegroup.endpoint.JsonTransformer;
 import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
 import org.healthadvicegroup.endpoint.impl.GetArticlesEndpoint;
 import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
+import spark.ResponseTransformer;
 import spark.Spark;
 
 public class Main {
@@ -53,9 +55,8 @@ public class Main {
          * @see GetArticlesEndpoint
          */
         Spark.get("/articles", (response, result) ->
-                EndpointManager.executeEndpoint(GetArticlesEndpoint.class, response, result));
+                EndpointManager.executeEndpoint(GetArticlesEndpoint.class, response, result).body());
 
         System.out.println("Backend Service Started");
     }
-
 }

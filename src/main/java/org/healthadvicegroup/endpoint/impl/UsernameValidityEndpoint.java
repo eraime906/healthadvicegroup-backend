@@ -10,8 +10,8 @@ public class UsernameValidityEndpoint extends Endpoint {
     @Override
     public Response handle(Request request, Response response) {
         String username = request.params(":username");
-        response.status(AccountManager.doesUsernameExist(username) ? 204 : 404);
         response.header("sent-username", username);
+        response.status(AccountManager.doesUsernameExist(username) ? 204 : 404);
         return response;
     }
 }

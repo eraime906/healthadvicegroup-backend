@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.healthadvicegroup.Main;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 
 @Getter
 public abstract class Endpoint {
@@ -27,12 +26,12 @@ public abstract class Endpoint {
     }
 
     /**
-     * Abstract function implemented by each endpoint to handle a HTTP request
+     * Abstract function implemented by each endpoint to handle HTTP requests
      *
-     * @param request the request object
+     * @param request  the request object
      * @param response the response object
      *
-     * @return the finished response object
+     * @return the response body
      */
     public abstract Response handle(Request request, Response response);
 
