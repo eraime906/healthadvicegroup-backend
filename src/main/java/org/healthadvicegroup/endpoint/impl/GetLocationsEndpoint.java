@@ -1,16 +1,16 @@
 package org.healthadvicegroup.endpoint.impl;
 
-import org.healthadvicegroup.account.AccountManager;
+import org.healthadvicegroup.Main;
 import org.healthadvicegroup.endpoint.Endpoint;
+import org.healthadvicegroup.forecasting.ForecastManager;
 import spark.Request;
 import spark.Response;
 
-public class UsernameValidityEndpoint extends Endpoint {
+public class GetLocationsEndpoint extends Endpoint {
 
     @Override
     public Response handle(Request request, Response response) {
-        String username = request.params(":username");
-        response.status(AccountManager.doesUsernameExist(username) ? 204 : 404);
+        response.body(Main.getGSON().toJson(ForecastManager.getLocationNames()));
         return response;
     }
 }

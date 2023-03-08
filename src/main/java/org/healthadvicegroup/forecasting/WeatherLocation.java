@@ -41,7 +41,6 @@ public class WeatherLocation implements Serializable<WeatherLocation> {
     public void updateAirQualityData(JsonObject object) {
         this.airQualityData = object;
         System.out.println("Updated air quality data for " + this.locationName);
-        System.out.println(String.format("data=%s", this.getMainAirQualityDataObject()));
     }
 
     /**
@@ -51,6 +50,9 @@ public class WeatherLocation implements Serializable<WeatherLocation> {
         return this.weatherData.get("main").getAsJsonObject();
     }
 
+    /**
+     * @return shortcut to the main JSON air quality data object
+     */
     private JsonObject getMainAirQualityDataObject() {
         return this.airQualityData.get("data")
                 .getAsJsonObject()
@@ -122,6 +124,7 @@ public class WeatherLocation implements Serializable<WeatherLocation> {
     @Override
     public JsonElement toJson(WeatherLocation object, Gson gson) {
         JsonObject json = new JsonObject();
+        json.addProperty("weather-desc", this.getWeatherDescription());
         json.addProperty("real-temp", this.getRealTemperature());
         json.addProperty("feels-like-temp", this.getFeelsLikeTemperature());
         json.addProperty("pressure", this.getPressure());

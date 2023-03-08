@@ -1,8 +1,6 @@
 package org.healthadvicegroup.endpoint;
 
-import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
-import org.healthadvicegroup.endpoint.impl.GetArticlesEndpoint;
-import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
+import org.healthadvicegroup.endpoint.impl.*;
 import spark.Request;
 import spark.Response;
 import spark.utils.Assert;
@@ -19,6 +17,8 @@ public class EndpointManager {
         registerEndpoint(new UsernameValidityEndpoint());
         registerEndpoint(new AccountCreationEndpoint());
         registerEndpoint(new GetArticlesEndpoint());
+        registerEndpoint(new GetLocationsEndpoint());
+        registerEndpoint(new GetLocationDataEndpoint());
     }
 
     /**
@@ -42,7 +42,7 @@ public class EndpointManager {
     public static Response executeEndpoint(Class<? extends Endpoint> clazz, Request request, Response response) {
         Assert.isTrue(endpoints.containsKey(clazz), String.format("No endpoint for class %s was found", clazz.getSimpleName()));
         Endpoint endpoint = endpoints.get(clazz);
-        //response.type("application/json");
+        response.type("application/json");
         System.out.printf("Executing %s\n", endpoint.getClass().getSimpleName());
         return endpoint.handle(request, response);
     }

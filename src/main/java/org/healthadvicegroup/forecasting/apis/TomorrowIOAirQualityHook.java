@@ -9,20 +9,7 @@ import java.io.IOException;
 
 public class TomorrowIOAirQualityHook {
 
-    /*
-    const options = {
-  method: 'GET',
-  url: 'https://air-quality.p.rapidapi.com/history/airquality',
-  params: {lon: '-78.638', lat: '35.779'},
-  headers: {
-    'X-RapidAPI-Key': '9fd5c4f730mshd188cc808e821a2p116cccjsnd227999c7970',
-    'X-RapidAPI-Host': 'air-quality.p.rapidapi.com'
-  }
-};
-     */
-
     private final static String key = "NXWKlspInLd4CxaFL8fJy5UQ9Gtrr77x";
-    private final static String host = "air-quality.p.rapidapi.com";
     private final static OkHttpClient okHttpClient = new OkHttpClient();
 
     public static void updateAirQualityData(WeatherLocation location) {

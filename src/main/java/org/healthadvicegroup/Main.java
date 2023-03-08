@@ -9,9 +9,7 @@ import org.healthadvicegroup.article.ArticleManager;
 import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.endpoint.EndpointManager;
 import org.healthadvicegroup.endpoint.JsonTransformer;
-import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
-import org.healthadvicegroup.endpoint.impl.GetArticlesEndpoint;
-import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
+import org.healthadvicegroup.endpoint.impl.*;
 import org.healthadvicegroup.forecasting.ForecastManager;
 import spark.ResponseTransformer;
 import spark.Spark;
@@ -40,24 +38,40 @@ public class Main {
          *
          * @see UsernameValidityEndpoint
          */
-        Spark.head("/account/:username", (response, result) ->
-                EndpointManager.executeEndpoint(UsernameValidityEndpoint.class, response, result));
+        Spark.head("/account/:username", (request, result) ->
+                EndpointManager.executeEndpoint(UsernameValidityEndpoint.class, request, result));
 
         /**
          * Used to create a new account
          *
          * @see AccountCreationEndpoint
          */
-        Spark.post("account/create", (response, result) ->
-                EndpointManager.executeEndpoint(AccountCreationEndpoint.class, response, result));
+        Spark.post("account/create", (request, result) ->
+                EndpointManager.executeEndpoint(AccountCreationEndpoint.class, request, result));
 
         /**
          * Used to fetch all articles from {@link ArticleManager}
          *
          * @see GetArticlesEndpoint
          */
-        Spark.get("/articles", (response, result) ->
-                EndpointManager.executeEndpoint(GetArticlesEndpoint.class, response, result).body());
+        Spark.get("/articles", (request, result) ->
+                EndpointManager.executeEndpoint(GetArticlesEndpoint.class, request, result).body());
+
+        /**
+         * Used to fetch a list of supported locations
+         *
+         * @see GetLocationsEndpoint
+         */
+        Spark.get("/locations", (request, result) ->
+                EndpointManager.executeEndpoint(GetLocationsEndpoint.class, request, result).body());
+
+        /**
+         * Used to fetch data about a location
+         *
+         * @see GetLocationDataEndpoint
+         */
+        Spark.get("/location/:location", (request, result) ->
+                EndpointManager.executeEndpoint(GetLocationDataEndpoint.class, request, result).body());
 
         System.out.println("Backend Service Started");
     }
