@@ -12,6 +12,7 @@ import org.healthadvicegroup.endpoint.JsonTransformer;
 import org.healthadvicegroup.endpoint.impl.AccountCreationEndpoint;
 import org.healthadvicegroup.endpoint.impl.GetArticlesEndpoint;
 import org.healthadvicegroup.endpoint.impl.UsernameValidityEndpoint;
+import org.healthadvicegroup.forecasting.ForecastManager;
 import spark.ResponseTransformer;
 import spark.Spark;
 
@@ -30,6 +31,7 @@ public class Main {
         MongoCollectionManager.init();
         AccountManager.init();
         ArticleManager.init();
+        ForecastManager.init();
 
 
         // Construct API routes

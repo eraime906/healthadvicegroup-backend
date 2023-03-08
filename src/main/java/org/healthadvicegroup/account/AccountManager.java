@@ -36,14 +36,17 @@ public class AccountManager {
             public void run() {
                 // Do large database I/O operations on a separate thread
                 new Thread(() -> {
+                    double total = 0;
                     for (Map.Entry<UUID, UserAccount> entry : accountCache.entrySet()) {
                         if (!entry.getValue().isDirty()) {
                             continue;
                         }
+                        ++total;
                         if (!saveAccount(entry.getValue())) {
                             System.out.printf("Failed to save account with id %s\n", entry.getValue().getId().toString());
                         }
                     }
+                    System.out.printf("Saved %s accounts\n", total);
                 }).start();
             }
         }, 1000 * 300); // Auto-save accounts every 5 minutes
