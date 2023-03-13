@@ -4,9 +4,7 @@ import org.healthadvicegroup.endpoint.impl.*;
 import spark.Request;
 import spark.Response;
 import spark.utils.Assert;
-import sun.security.krb5.Credentials;
 
-import java.sql.SQLOutput;
 import java.util.HashMap;
 
 public class EndpointManager {

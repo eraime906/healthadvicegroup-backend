@@ -12,6 +12,12 @@ public class TomorrowIOAirQualityHook {
     private final static String key = "NXWKlspInLd4CxaFL8fJy5UQ9Gtrr77x";
     private final static OkHttpClient okHttpClient = new OkHttpClient();
 
+    /**
+     * Requests updated data from TommorowIO for the provided {@link WeatherLocation}
+     *
+     * @param location the location
+     */
+    @SuppressWarnings("StringBufferReplaceableByString")
     public static void updateAirQualityData(WeatherLocation location) {
         //
         Request request = new Request.Builder()

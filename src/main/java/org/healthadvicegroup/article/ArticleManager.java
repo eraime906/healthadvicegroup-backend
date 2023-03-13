@@ -4,7 +4,9 @@ import org.bson.Document;
 import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.database.MongoCollectionWrapper;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ArticleManager {
     private static final HashMap<UUID, Article> articleCache = new HashMap<>();

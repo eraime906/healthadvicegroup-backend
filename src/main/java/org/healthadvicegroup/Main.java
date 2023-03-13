@@ -1,8 +1,6 @@
 package org.healthadvicegroup;
 
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -10,13 +8,9 @@ import org.healthadvicegroup.account.AccountManager;
 import org.healthadvicegroup.article.ArticleManager;
 import org.healthadvicegroup.database.MongoCollectionManager;
 import org.healthadvicegroup.endpoint.EndpointManager;
-import org.healthadvicegroup.endpoint.JsonTransformer;
 import org.healthadvicegroup.endpoint.impl.*;
 import org.healthadvicegroup.forecasting.ForecastManager;
-import spark.ResponseTransformer;
 import spark.Spark;
-
-import java.util.Arrays;
 
 public class Main {
 

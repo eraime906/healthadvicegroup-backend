@@ -38,10 +38,12 @@ public class ForecastManager {
 
     /**
      * Fetch a {@link WeatherLocation} by name
+     * <p>
+     * This method is case-sensitive as exact names are provided by {@link #getLocationNames()}
      *
      * @param name the name of the location to fetch
      *
-     * @return the location, if one exists
+     * @return the location, if one exists with the provided name
      */
     public static WeatherLocation getLocation(String name) {
         for (WeatherLocation weatherLocation : weatherLocations) {
@@ -52,6 +54,15 @@ public class ForecastManager {
         return null;
     }
 
+    /**
+     * Quick and accurate conversion from Kelvin to Celsius
+     * <p>
+     * This is used because the temperature returned by the weather API records data in Kelvin
+     *
+     * @param kelvin the Kelvin temperature to convert
+     *
+     * @return the provided Kelvin temperature in Celsius
+     */
     public static double kelvinToCelsius(double kelvin) {
         return kelvin - 273.15;
     }

@@ -10,7 +10,6 @@ import org.healthadvicegroup.Main;
 import org.healthadvicegroup.database.Serializable;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
 
 @Getter

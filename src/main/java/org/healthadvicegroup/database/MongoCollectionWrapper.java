@@ -1,7 +1,5 @@
 package org.healthadvicegroup.database;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -9,9 +7,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import lombok.Getter;
 import org.bson.Document;
-import org.bson.types.ObjectId;
-
-import java.util.HashMap;
 
 @Getter
 public class MongoCollectionWrapper {
