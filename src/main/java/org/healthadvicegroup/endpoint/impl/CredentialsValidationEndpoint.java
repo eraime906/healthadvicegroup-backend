@@ -12,6 +12,11 @@ public class CredentialsValidationEndpoint extends Endpoint {
     @Override
     public Response handle(Request request, Response response) {
         JsonObject json = super.deserializeBody(request.body());
+        if (!json.has("usernameOrEmail") || !json.has("password")) {
+            response.body("Missing username/email or password field");
+            response.status(400);
+            return response;
+        }
         String usernameOrEmail = json.get("usernameOrEmail").getAsString();
         String password = json.get("password").getAsString();
         UserAccount account = AccountManager.getByUsernameOrEmail(usernameOrEmail);

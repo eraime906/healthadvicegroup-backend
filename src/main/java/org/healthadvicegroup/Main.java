@@ -57,7 +57,7 @@ public class Main {
          * @see AccountCreationEndpoint
          */
         Spark.post("account/create", (request, response) ->
-                EndpointManager.executeEndpoint(AccountCreationEndpoint.class, request, response));
+                EndpointManager.executeEndpoint(AccountCreationEndpoint.class, request, response).body());
 
         /**
          * Used to fetch all articles from {@link ArticleManager}
