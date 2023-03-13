@@ -14,7 +14,7 @@ public class AccountManager {
     private static final ConcurrentHashMap<UUID, UserAccount> accountCache = new ConcurrentHashMap<>();
 
     // Fast cache used to quickly determine whether a username exists or not
-    private static final HashSet<String>usernameCache = new HashSet<>();
+    private static final HashSet<String> usernameCache = new HashSet<>();
     private static final MongoCollectionWrapper accountCollection = MongoCollectionManager.getCollectionWrapper("accounts");
 
     public static void init() {
@@ -113,6 +113,27 @@ public class AccountManager {
      */
     public static boolean doesUsernameExist(String username) {
         return usernameCache.contains(username.toLowerCase(Locale.ROOT));
+    }
+
+    /**
+     * Return the {@link UserAccount} with a username or email matching the provided {@link String} input
+     *
+     * @param input the username or email to test for
+     *
+     * @return the account with the provided username or email
+     */
+    public static UserAccount getByUsernameOrEmail(String input) {
+        if (input == null) {
+            return null;
+        }
+        input = input.toLowerCase(Locale.ROOT);
+        for (Map.Entry<UUID, UserAccount> account : accountCache.entrySet()) {
+            UserAccount test = account.getValue();
+            if (test.getUsername().toLowerCase(Locale.ROOT).equals(input) || test.getEmail().toLowerCase(Locale.ROOT).equals(input)) {
+                return test;
+            }
+        }
+        return null;
     }
 
 }
