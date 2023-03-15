@@ -41,6 +41,8 @@ public class Main {
 
         /**
          * Used to validate whether the provided account credentials are valid or not
+         *
+         * @see CredentialsValidationEndpoint
          */
         Spark.post("account/validate", (request, response) ->
                 EndpointManager.executeEndpoint(CredentialsValidationEndpoint.class, request, response).body());
