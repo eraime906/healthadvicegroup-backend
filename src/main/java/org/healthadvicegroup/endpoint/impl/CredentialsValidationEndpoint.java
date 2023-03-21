@@ -27,6 +27,7 @@ public class CredentialsValidationEndpoint extends Endpoint {
             return response;
         }
         response.body("OK");
+        response.status(204);
         return response;
     }
 }

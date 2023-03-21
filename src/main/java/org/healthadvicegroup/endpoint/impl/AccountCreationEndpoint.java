@@ -24,17 +24,17 @@ public class AccountCreationEndpoint extends Endpoint {
 
         // Validate input lengths individually to provide specific errors
         if (username.length() > 16) {
-            response.body("Username too long, max length is 16 characters");
+            response.body("Username too long, the maximum length is 16 characters, yours is " + username.length());
             response.status(400);
             return response;
         }
         if (email.length() > 64) {
-            response.body("Email too long, max length is 64 characters");
+            response.body("Email too long, the maximum length is 64 characters, yours is " + email.length());
             response.status(400);
             response.body();
         }
         if (password.length() > 64) {
-            response.body("Password is too long, max length is 64 characters");
+            response.body("Password is too long, the maximum length is 64 characters " + password.length());
             response.status(400);
             return response;
         }
