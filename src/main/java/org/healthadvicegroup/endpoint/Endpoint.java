@@ -1,5 +1,6 @@
 package org.healthadvicegroup.endpoint;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
@@ -21,8 +22,23 @@ public abstract class Endpoint {
      *
      * @return the deserialized key-value object
      */
-    public JsonObject deserializeBody(String body) {
-        return (JsonObject) Main.getGSON().fromJson(body, JsonElement.class);
+    public JsonObject bodyToJsonObject(String body) {
+        JsonElement element = Main.getGSON().fromJson(body, JsonElement.class);
+        if (element instanceof JsonObject) {
+            return (JsonObject) element;
+        }
+        else if (element instanceof JsonArray) {
+            JsonObject jsonObject = new JsonObject();
+            JsonArray array = (JsonArray) element;
+            for (JsonElement arrayElement : array) {
+                JsonObject arrayElementObject = arrayElement.getAsJsonObject();
+                for (String key : arrayElementObject.keySet()) {
+                    jsonObject.addProperty(key, arrayElementObject.get(key).getAsString());
+                }
+            }
+            return jsonObject;
+        }
+        throw new UnsupportedOperationException("Unsupported body format");
     }
 
     /**

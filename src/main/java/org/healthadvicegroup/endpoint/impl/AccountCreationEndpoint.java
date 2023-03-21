@@ -10,7 +10,7 @@ public class AccountCreationEndpoint extends Endpoint {
     @Override
     public Response handle(Request request, Response response) {
         // Deserialize request body
-        JsonObject json = super.deserializeBody(request.body());
+        JsonObject json = super.bodyToJsonObject(request.body());
 
         // Ensure all parameters are present
         if (!json.has("username") || !json.has("email") || !json.has("password")) {
@@ -44,6 +44,8 @@ public class AccountCreationEndpoint extends Endpoint {
                 email,
                 password);
 
+        response.body("Success");
+        response.status(204);
         return response;
     }
 }

@@ -45,6 +45,7 @@ public class UserAccount implements Serializable<UserAccount> {
         this.fitnessTracker = new FitnessTracker(this);
         AccountManager.registerAccount(this);
         AccountManager.saveAccount(this);
+        System.out.printf("Created account with username %s\n", username);
     }
 
     @Override
