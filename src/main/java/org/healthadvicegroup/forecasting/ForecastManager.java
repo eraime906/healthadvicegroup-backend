@@ -13,24 +13,23 @@ public class ForecastManager {
         add(new WeatherLocation("Manchester", 53.480800f, 2.242600f));
         add(new WeatherLocation("Birmingham", 52.486200f, 1.890400f));
         add(new WeatherLocation("Plymouth", 50.375500f, 4.142700f));
-        add(new WeatherLocation("Newcastle", 54.978300f, 1.617800f));
-        add(new WeatherLocation("Norwich", 52.629300f, 1.297900f));
-        add(new WeatherLocation("Leeds", 53.800800f, 1.549100f));
         add(new WeatherLocation("Edinburgh", 55.953300f, 3.188300f));
     }};
 
     public static void init() {
-        // Update data every 30 min
+        // Update data every 60 min
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 System.out.println("Updating location data");
                 for (WeatherLocation weatherLocation : weatherLocations) {
                     OpenWeatherMapHook.updateWeatherData(weatherLocation);
-                    TomorrowIOAirQualityHook.updateAirQualityData(weatherLocation);
+                    if (!TomorrowIOAirQualityHook.rateLimited) {
+                        TomorrowIOAirQualityHook.updateAirQualityData(weatherLocation);
+                    }
                 }
             }
-        }, 0, 1000 * 60 * 30);
+        }, 0, 1000 * 60 * 60);
     }
 
     /**

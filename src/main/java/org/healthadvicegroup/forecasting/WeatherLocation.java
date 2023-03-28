@@ -101,10 +101,6 @@ public class WeatherLocation implements Serializable<WeatherLocation> {
         return this.getWeatherData().get("wind").getAsJsonObject().get("deg").getAsDouble();
     }
 
-    public boolean isRaining() {
-        return this.getWeatherData().get("rain").getAsJsonObject().get("1h").getAsInt() == 1;
-    }
-
     public int cloudRating() {
         return this.getWeatherData().get("clouds").getAsJsonObject().get("all").getAsInt();
     }
@@ -124,6 +120,9 @@ public class WeatherLocation implements Serializable<WeatherLocation> {
     @Override
     public JsonElement toJson(WeatherLocation object, Gson gson) {
         JsonObject json = new JsonObject();
+        json.addProperty("name", this.locationName);
+        json.addProperty("lat", this.latitude);
+        json.addProperty("lon", this.longitude);
         json.addProperty("weather-desc", this.getWeatherDescription());
         json.addProperty("real-temp", this.getRealTemperature());
         json.addProperty("feels-like-temp", this.getFeelsLikeTemperature());
@@ -131,11 +130,12 @@ public class WeatherLocation implements Serializable<WeatherLocation> {
         json.addProperty("humidity", this.getHumidity());
         json.addProperty("wind-speed", this.getWindSpeed());
         json.addProperty("wind-bearing", this.getWindBearing());
-        json.addProperty("raining", this.isRaining());
         json.addProperty("cloud-rating", this.cloudRating());
-        json.addProperty("grass-pollen", this.getGrassPollenIndex());
-        json.addProperty("tree-pollen", this.getTreePollenIndex());
-        json.addProperty("weed-pollen", this.getWeedPollenIndex());
+        if (!TomorrowIOAirQualityHook.rateLimited) {
+            json.addProperty("grass-pollen", this.getGrassPollenIndex());
+            json.addProperty("tree-pollen", this.getTreePollenIndex());
+            json.addProperty("weed-pollen", this.getWeedPollenIndex());
+        }
         return json;
     }
 }

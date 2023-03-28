@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class TomorrowIOAirQualityHook {
 
+    public static boolean rateLimited = false;
     private final static String key = "NXWKlspInLd4CxaFL8fJy5UQ9Gtrr77x";
     private final static OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -31,6 +32,7 @@ public class TomorrowIOAirQualityHook {
             @Override
             public void onFailure(Request request, IOException ex) {
                 ex.printStackTrace();
+                rateLimited = true;
             }
 
             @Override
