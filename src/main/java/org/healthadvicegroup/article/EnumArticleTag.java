@@ -4,6 +4,6 @@ public enum EnumArticleTag {
 
     ADVICE,
     ENVIRONMENTAL,
-    AIR_QUALITY
+    AIR_QUALITY,
 
 }

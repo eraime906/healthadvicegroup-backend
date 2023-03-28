@@ -21,9 +21,7 @@ public class Main {
     @SuppressWarnings("DanglingJavadoc") // Used to document endpoints
     public static void main(String[] args) {
         // Setup gson
-        GSON = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
+        GSON = new GsonBuilder().create();
 
         // Initialise managers
         MongoCollectionManager.init();
