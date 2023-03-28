@@ -9,14 +9,14 @@ public class ForecastManager {
 
     private static final HashSet<WeatherLocation> weatherLocations = new HashSet<WeatherLocation>(){{
         add(new WeatherLocation("Southampton", 50.904968f, -1.403230f));
-//        add(new WeatherLocation("London", 51.507200f, 0.127600f));
-//        add(new WeatherLocation("Manchester", 53.480800f, 2.242600f));
-//        add(new WeatherLocation("Birmingham", 52.486200f, 1.890400f));
-//        add(new WeatherLocation("Plymouth", 50.375500f, 4.142700f));
-//        add(new WeatherLocation("Newcastle", 54.978300f, 1.617800f));
-//        add(new WeatherLocation("Norwich", 52.629300f, 1.297900f));
-//        add(new WeatherLocation("Leeds", 53.800800f, 1.549100f));
-//        add(new WeatherLocation("Edinburgh", 55.953300f, 3.188300f));
+        add(new WeatherLocation("London", 51.507200f, 0.127600f));
+        add(new WeatherLocation("Manchester", 53.480800f, 2.242600f));
+        add(new WeatherLocation("Birmingham", 52.486200f, 1.890400f));
+        add(new WeatherLocation("Plymouth", 50.375500f, 4.142700f));
+        add(new WeatherLocation("Newcastle", 54.978300f, 1.617800f));
+        add(new WeatherLocation("Norwich", 52.629300f, 1.297900f));
+        add(new WeatherLocation("Leeds", 53.800800f, 1.549100f));
+        add(new WeatherLocation("Edinburgh", 55.953300f, 3.188300f));
     }};
 
     public static void init() {
