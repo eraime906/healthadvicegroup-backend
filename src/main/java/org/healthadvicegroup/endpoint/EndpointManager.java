@@ -19,6 +19,7 @@ public class EndpointManager {
         registerEndpoint(new GetLocationsEndpoint());
         registerEndpoint(new GetLocationDataEndpoint());
         registerEndpoint(new CredentialsValidationEndpoint());
+        registerEndpoint(new LocationDataEndpoint());
     }
 
     /**

@@ -60,6 +60,7 @@ public class Main {
             get("/articles", (request, response) -> EndpointManager.executeEndpoint(GetArticlesEndpoint.class, request, response).body());
             get("/locations", (request, response) -> EndpointManager.executeEndpoint(GetLocationsEndpoint.class, request, response).body());
             get("/location/:location", (request, response) -> EndpointManager.executeEndpoint(GetLocationDataEndpoint.class, request, response).body());
+            get("/locationdata/:lat/:lon", (request, response) -> EndpointManager.executeEndpoint(LocationDataEndpoint.class, request, response).body());
 
         });
 

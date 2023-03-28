@@ -23,6 +23,7 @@ public abstract class Endpoint {
      * @return the deserialized key-value object
      */
     public JsonObject bodyToJsonObject(String body) {
+        System.out.println("body="+body);
         JsonElement element = Main.getGSON().fromJson(body, JsonElement.class);
         if (element instanceof JsonObject) {
             return (JsonObject) element;

@@ -36,7 +36,7 @@ public class AccountManager {
             public void run() {
                 // Do large database I/O operations on a separate thread
                 new Thread(() -> {
-                    double total = 0;
+                    int total = 0;
                     for (Map.Entry<UUID, UserAccount> entry : accountCache.entrySet()) {
                         if (!entry.getValue().isDirty()) {
                             continue;
